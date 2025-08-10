@@ -23,8 +23,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Voting}/{action=Index}/{id?}");
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5024";
 app.Run($"http://0.0.0.0:{port}");
+
 
 
 app.Run();
