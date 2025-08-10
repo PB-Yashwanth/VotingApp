@@ -1,21 +1,21 @@
-# Use the official .NET SDK to build the app
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore dependencies
-COPY VotingApp/*.csproj ./VotingApp/
-RUN dotnet restore VotingApp/VotingApp.csproj
+COPY *.csproj ./
+RUN dotnet restore
 
-# Copy everything and build
+# Copy everything else and publish
 COPY . ./
-RUN dotnet publish VotingApp/VotingApp.csproj -c Release -o /app
+RUN dotnet publish -c Release -o /app
 
-# Runtime image
+# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app ./
 
-# Railway sets PORT dynamically
+# Railway will set PORT automatically
 ENV PORT=8080
 EXPOSE 8080
 
