@@ -1,0 +1,30 @@
+@{
+    ViewBag.Title = "Vote Now";
+}
+
+<h2>Vote for Your Party</h2>
+
+@if (TempData["Error"] != null)
+{
+    <p style="color:red">@TempData["Error"]</p>
+}
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<form method="post" asp-action="SubmitVote">
+    <label>Your Name:</label><br />
+    <input type="text" name="voterName" /><br /><br />
+
+    <label>Choose Party:</label><br />
+    @foreach (var c in ViewBag.Candidates)
+    {
+        <input type="radio" name="candidate" value="@c" /> @c <br />
+    }
+    <br />
+    <button type="submit">Vote</button>
+</form>
+
+<br />
+<a href="@Url.Action("Results")">View Live Results</a>
